@@ -1,31 +1,16 @@
-package main
+class Solution:
+    def summaryRanges(self, nums: List[int]) -> List[str]:
+        res = []
+        nums.append(math.inf)
 
-import "fmt"
+        l = 0
 
-func summaryRanges(nums []int) []string {
-	if len(nums) == 0 {
-		return []string{}
-	}
-	var ret []string
-	start := nums[0]
-	end := nums[0]
-	for i := 1; i < len(nums); i++ {
-		if nums[i]-1 == nums[i-1] {
-			end = nums[i]
-		} else {
-			if start != end {
-				ret = append(ret, fmt.Sprintf("%d->%d", start, end))
-			} else {
-				ret = append(ret, fmt.Sprint(start))
-			}
-			start = nums[i]
-			end = nums[i]
-		}
-	}
-	if start != end {
-		ret = append(ret, fmt.Sprintf("%d->%d", start, end))
-	} else {
-		ret = append(ret, fmt.Sprint(start))
-	}
-	return ret
-}
+        for r in range(1, len(nums)):
+            if nums[l] + (r - l) != nums[r]:
+                if r - l == 1:
+                    res.append(str(nums[l]))
+                else:
+                    _range = f"{nums[l]}->{nums[r - 1]}"
+                    res.append(_range)
+                l = r
+        return res
