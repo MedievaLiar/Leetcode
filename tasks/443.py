@@ -1,3 +1,4 @@
+#faster than 90-60%
 from collections import deque
 class Solution:
     def compress(self, chars: List[str]) -> int:
