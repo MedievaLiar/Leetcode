@@ -1,27 +1,17 @@
-package main
+class Solution:
+    res = []
+    def generateParenthesis(self, N: int) -> list[str]:
+        def dfs(l:int, r:int, s:str, nsLeft:int):
+            if nsLeft > 0:
+                if l > r:
+                    dfs(l, r + 1, s + ')', nsLeft)
+                dfs(l + 1, r, s + '(', nsLeft - 1)
+            elif l > r:
+                dfs(l, r + 1, s + ')',  nsLeft)
+            else:
+                Solution.res.append(s)
+                return
 
-import "fmt"
-
-func main() {
-	fmt.Print(generateParenthesis(3))
-}
-
-func generateParenthesis(n int) []string {
-	var ret []string
-	backTrack(&ret, "", n, n, n*2)
-	return ret
-
-}
-
-func backTrack(output *[]string, current string, opened, closed, max int) {
-	if len(current) == max {
-		*output = append(*output, current)
-	}
-	if opened > 0 {
-		backTrack(output, current+"(", opened-1, closed, max)
-
-	}
-	if closed > opened {
-		backTrack(output, current+")", opened, closed-1, max)
-	}
-}
+        Solution.res = []
+        dfs(0, 0, '', N)
+        return Solution.res
