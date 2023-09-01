@@ -1,13 +1,14 @@
+#faster than 95%
 class Solution:
     res = []
     def generateParenthesis(self, N: int) -> list[str]:
-        def dfs(l:int, r:int, s:str, nsLeft:int):
-            if nsLeft > 0:
+        def dfs(l:int, r:int, s:str, lsLeft:int):
+            if lsLeft > 0:
                 if l > r:
-                    dfs(l, r + 1, s + ')', nsLeft)
-                dfs(l + 1, r, s + '(', nsLeft - 1)
+                    dfs(l, r + 1, s + ')', lsLeft)
+                dfs(l + 1, r, s + '(', lsLeft - 1)
             elif l > r:
-                dfs(l, r + 1, s + ')',  nsLeft)
+                dfs(l, r + 1, s + ')',  lsLeft)
             else:
                 Solution.res.append(s)
                 return
