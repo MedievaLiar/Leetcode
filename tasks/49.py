@@ -1,43 +1,28 @@
-package main
+class Solution:
+    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
+        class StrPair: # структура чтобы со строкой хранить ее хэш
+            def __init__(self, str = 100, strhash = 'asds'):
+                self.str = str
+                self.strhash = strhash
 
-import (
-	"fmt"
-	"sort"
-)
-
-func main() {
-	fmt.Print(groupAnagrams([]string{"eat", "tea", "tan", "ate", "nat", "bat"}))
-}
-
-func groupAnagrams(strs []string) [][]string {
-	sortedHash := make(map[string][]string)
-	var ret [][]string
-	for i := 0; i < len(strs); i++ {
-		sortedWord := sortString(strs[i])
-		sortedHash[sortedWord] = append(sortedHash[sortedWord], strs[i])
-	}
-	for el := range sortedHash {
-		ret = append(ret, sortedHash[el])
-	}
-	return ret
-}
-
-type sortRunes []rune
-
-func (s sortRunes) Less(i, j int) bool {
-	return s[i] < s[j]
-}
-
-func (s sortRunes) Swap(i, j int) {
-	s[i], s[j] = s[j], s[i]
-}
-
-func (s sortRunes) Len() int {
-	return len(s)
-}
-
-func sortString(s string) string {
-	r := []rune(s)
-	sort.Sort(sortRunes(r))
-	return string(r)
-}
+        #O(NMlogM), N < 10^5, M < 100, beats 80%
+            
+        #отсортируем каждый элемент в массиве, сохранив предыдущий в виде структуры StrPair
+        for i in range(len(strs)):
+            str = strs[i]
+            hashed_str = hash(''.join(sorted(list(str))))
+            strs[i] = StrPair(str, hashed_str)
+            
+        #отсортируем массив по хэшу каждой отсортированной строки
+        strs = sorted(strs, key = lambda a: hash(a.strhash))
+	    
+        #подряд идущие будут анаграммами. выведем результат
+        strs.append(StrPair())
+        res = []
+        anagram_list = []
+        for i in range(len(strs) - 1):
+            anagram_list.append(strs[i].str)
+            if strs[i].strhash != strs[i+1].strhash:
+                res.append(anagram_list)
+                anagram_list = []
+        return res
