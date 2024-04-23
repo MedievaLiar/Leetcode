@@ -1,19 +1,19 @@
-package main
+from typing import List
 
-import "fmt"
+class Solution:
+    def subarraySum(self, nums: List[int], k: int) -> int:
+        a = {0 : 1}
+        
+        subarraySumEqualK = 0
+        prefixsum = 0
+        for num in nums:
+            prefixsum += num
+            if a.get(prefixsum - k) != None:
+                subarraySumEqualK += a[prefixsum - k]
+            
+            if a.get(prefixsum) == None:
+                a[prefixsum] = 0
+            
+            a[prefixsum] += 1
 
-func main() {
-	fmt.Println(subarraySum([]int{1, 1, 1}, 2))
-}
-
-func subarraySum(nums []int, k int) int {
-	sumFreq := map[int]int{0: 1}
-	sum := 0
-	count := 0
-	for _, v := range nums {
-		sum += v
-		count += sumFreq[sum-k]
-		sumFreq[sum]++
-	}
-	return count
-}
+        return subarraySumEqualK
