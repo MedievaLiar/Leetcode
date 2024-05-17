@@ -1,16 +1,39 @@
+# Beats 90% O(N)
+from typing import List
 class Solution:
-    def summaryRanges(self, nums: List[int]) -> List[str]:
-        res = []
-        nums.append(math.inf)
-
-        l = 0
-
-        for r in range(1, len(nums)):
-            if nums[l] + (r - l) != nums[r]:
-                if r - l == 1:
-                    res.append(str(nums[l]))
+    def find_Two_Same_Indexes(nums, num):
+        first, second = -1, -1
+        for i in range(len(nums)):
+            if nums[i] == num:
+                if first == -1:
+                    first = i
                 else:
-                    _range = f"{nums[l]}->{nums[r - 1]}"
-                    res.append(_range)
-                l = r
-        return res
+                    second = i
+                    break
+        
+        return first, second
+    
+    def generate_dict(nums):
+        a = dict()
+        for num in nums:
+            if a.get(num) == None:
+                a[num] = 0
+            a[num] += 1
+        return a
+    
+    def twoSum(self, nums: List[int], target: int) -> List[int]:
+        a = Solution.generate_dict(nums)
+        
+        for num in nums:
+            if (target - num) == num:
+                if a[num] >= 2:
+                    first, second = Solution.find_Two_Same_Indexes(nums, num)
+                    break
+            
+            elif a.get((target - num)) != None:
+                first = nums.index(num)
+                second = nums.index(target - num)
+                break
+        
+        return [first, second]
+            
