@@ -1,22 +1,24 @@
-package main
+class Solution:
+    def merge(self, nums1: List[int], m: int, nums2: List[int], n: int) -> None:
+        # make n, m last pointers
+        n -= 1
+        m -= 1
+        # pointernums1 is a last pointer for nums1
+        pointerNums1 = n + m + 1
 
-import "fmt"
+        while n > -1 or m > -1:
 
-func main() {
-	nums1 := []int{1, 2, 3, 0, 0, 0}
-	merge(nums1, 3, []int{4, 5, 6}, 3)
-	fmt.Print(nums1)
-}
-
-func merge(nums1 []int, m int, nums2 []int, n int) {
-	var i, j = m - 1, n - 1
-	for l := len(nums1) - 1; l >= 0; l-- {
-		if j < 0 || i >= 0 && nums1[i] >= nums2[j] {
-			nums1[l] = nums1[i]
-			i--
-		} else {
-			nums1[l] = nums2[j]
-			j--
-		}
-	}
-}
+            if n == -1:
+                nums1[pointerNums1] = nums1[m]
+                m -= 1
+            elif m == -1:
+                nums1[pointerNums1] = nums2[n]
+                n -= 1
+            else:
+                if nums1[m] > nums2[n]:
+                    nums1[pointerNums1] = nums1[m]
+                    m -= 1
+                else:
+                    nums1[pointerNums1] = nums2[n]
+                    n -= 1
+            pointerNums1 -= 1
